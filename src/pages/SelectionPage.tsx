@@ -6,6 +6,9 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Item from "../components/MedicalItem";
@@ -13,6 +16,7 @@ import MedicalItem from "../components/MedicalItem";
 
 type ItemData = {
   id: string;
+  picture: Image;
   title: string;
   emission: number;
 };
@@ -23,17 +27,48 @@ type SelectedItem = {
 };
 
 const DATA: ItemData[] = [
-  { id: "1", title: "Pair of Latex Gloves", emission: 10 },
-  { id: "2", title: "Surgical Mask", emission: 20 },
-  { id: "3", title: "Syringe 50mL", emission: 50 },
-  { id: "4", title: "Syringe 20mL", emission: 30 },
-  { id: "5", title: "Syringe 100mL", emission: 70 },
+  {
+    id: "1",
+    picture: require("../../assets/pictures/surgical_gloves.png"),
+    title: "Surgical Gloves (Pair)",
+    emission: 1.2,
+  },
+  {
+    id: "2",
+    picture: require("../../assets/pictures/surgical_mask.png"),
+    title: "Surgical Mask",
+    emission: 2.249,
+  },
+  {
+    id: "3",
+    picture: require("../../assets/pictures/syringe.png"),
+    title: "2mL Syringe",
+    emission: 0.013,
+  },
+  {
+    id: "4",
+    picture: require("../../assets/pictures/syringe.png"),
+    title: "5mL Syringe",
+    emission: 0.016,
+  },
+  {
+    id: "5",
+    picture: require("../../assets/pictures/syringe.png"),
+    title: "10mL Syringe",
+    emission: 0.03,
+  },
 ];
 
 const SelectionPage = ({ navigation }) => {
   const [selectedItems, setSelectedItems] = useState<
     Record<string, SelectedItem | undefined>
   >({});
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredData = DATA.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleSelect = (id, change) => {
     if (!selectedItems[id]) {
@@ -42,7 +77,7 @@ const SelectionPage = ({ navigation }) => {
         [id]: { count: 1, item: DATA.find((item) => item.id === id) },
       });
     } else if (selectedItems[id].count + change < 1) {
-      setSelectedItems({ ...selectedItems, [id]: undefined }); // deselect if count becomes 0
+      setSelectedItems({ ...selectedItems, [id]: undefined });
     } else {
       setSelectedItems({
         ...selectedItems,
@@ -65,27 +100,36 @@ const SelectionPage = ({ navigation }) => {
   };
 
   return (
-    <LinearGradient colors={["lightgreen", "white"]} style={styles.container}>
-      <Text style={styles.title}>Medical Carbon Calculator</Text>
-      <TextInput style={styles.input} placeholder="Search for items..." />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <LinearGradient colors={["lightblue", "white"]} style={styles.container}>
+        <Text style={styles.title}>Carbon Emissions Calculator</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Search for items..."
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
 
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
-          <Item
-            title={item.title}
-            onSelect={(change) => handleSelect(item.id, change)}
-            isSelected={!!selectedItems[item.id]}
-            count={selectedItems[item.id]?.count}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+        <FlatList
+          data={filteredData}
+          renderItem={({ item }) => (
+            <MedicalItem
+              title={item.title}
+              onSelect={(change) => handleSelect(item.id, change)}
+              isSelected={!!selectedItems[item.id]}
+              count={selectedItems[item.id]?.count}
+              picture={item.picture}
+            />
+          )}
+          contentContainerStyle={styles.flatListContent}
+          keyExtractor={(item) => item.id}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-    </LinearGradient>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>Calculate</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -95,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 80,
   },
   title: {
     fontSize: 24,
@@ -109,7 +153,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    color: "white",
+    color: "black",
     width: "100%",
     marginBottom: 20,
   },
@@ -124,6 +168,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+  },
+  flatListContent: {
+    padding: 30,
   },
 });
 

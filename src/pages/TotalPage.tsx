@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const TotalPage = ({ route }) => (
-  <LinearGradient colors={["green", "white"]} style={styles.container}>
-    <Text style={styles.title}>Total Carbon Emission</Text>
+  <LinearGradient colors={["lightgreen", "white"]} style={styles.container}>
+    <Text style={styles.title}>Estimated Carbon Emission</Text>
     <Text style={styles.totalEmission}>{route.params.totalEmission}</Text>
   </LinearGradient>
 );
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     marginBottom: 20,
   },
   totalEmission: {

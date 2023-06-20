@@ -1,12 +1,13 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
 
-const MedicalItem = ({ title, onSelect, isSelected, count }) => (
+const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
   <View style={styles.container}>
     <TouchableOpacity
-      onPress={() => onSelect(isSelected ? -1 : 1)}
+      onPress={() => onSelect(1)}
       style={[styles.item, isSelected ? styles.selectedItem : {}]}
     >
+      <Image source={picture} style={styles.imageStyle} />
       <Text style={styles.itemText}>{title}</Text>
     </TouchableOpacity>
     {isSelected && (
@@ -36,15 +37,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   selectedItem: {
-    backgroundColor: "green",
+    backgroundColor: "lightgreen",
   },
   itemText: {
     color: "black",
     alignSelf: "center",
+    fontSize: 16,
   },
   countText: {
     alignSelf: "center",
     color: "black",
+    fontWeight: "bold",
   },
   countContainer: {
     flexDirection: "row",
@@ -55,6 +58,13 @@ const styles = StyleSheet.create({
     color: "black",
     paddingRight: 10,
     paddingLeft: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  imageStyle: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
   },
 });
 
