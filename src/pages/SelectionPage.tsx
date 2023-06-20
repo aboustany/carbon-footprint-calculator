@@ -87,7 +87,7 @@ const SelectionPage = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    const totalEmission = Object.values(selectedItems).reduce(
+    let totalEmission = Object.values(selectedItems).reduce(
       (total, selectedItem) => {
         if (selectedItem) {
           return total + selectedItem.count * selectedItem.item.emission;
@@ -96,6 +96,9 @@ const SelectionPage = ({ navigation }) => {
       },
       0
     );
+
+    totalEmission = parseFloat(totalEmission.toFixed(3));
+
     navigation.navigate("Total", { totalEmission });
   };
 

@@ -5,7 +5,9 @@ import { LinearGradient } from "expo-linear-gradient";
 const TotalPage = ({ route }) => (
   <LinearGradient colors={["lightgreen", "white"]} style={styles.container}>
     <Text style={styles.title}>Estimated Carbon Emission</Text>
-    <Text style={styles.totalEmission}>{route.params.totalEmission}</Text>
+    <Text style={styles.totalEmission}>
+      {route.params.totalEmission} {"kg CO2e"}
+    </Text>
   </LinearGradient>
 );
 
