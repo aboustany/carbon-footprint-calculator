@@ -1,6 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Animated, Image, Dimensions, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -28,13 +36,64 @@ const TotalPage = ({ route }) => {
     </TouchableOpacity>
   );
 
+  const data = [
+    {
+      name: "Transportation",
+      emissions: parseFloat(route.params.emissionBreakdown.transportation_emissions.toFixed(3)),
+      color: "blue",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Production",
+      emissions: parseFloat(route.params.emissionBreakdown.production_emissions.toFixed(3)),
+      color: "lightblue",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Packaging",
+      emissions: parseFloat(route.params.emissionBreakdown.packaging_emissions.toFixed(3)),
+      color: "green",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Disposal",
+      emissions: parseFloat(route.params.emissionBreakdown.disposal_emissions.toFixed(3)),
+      color: "lightgreen",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+
+  ];
+
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false // optional
+  };
+
   const BreakdownView = () => (
-    <View style={styles.breakdownView}>
-      <Text style={styles.breakdownText}>Transportation: {route.params.emissionBreakdown.transportation_emissions.toFixed(3)} kg CO2e</Text>
-      <Text style={styles.breakdownText}>Production: {route.params.emissionBreakdown.production_emissions.toFixed(3)} kg CO2e</Text>
-      <Text style={styles.breakdownText}>Packaging: {route.params.emissionBreakdown.packaging_emissions.toFixed(3)} kg CO2e</Text>
-      <Text style={styles.breakdownText}>Disposal: {route.params.emissionBreakdown.disposal_emissions.toFixed(3)} kg CO2e</Text>
-    </View>
+    <>
+   
+    <PieChart
+      data={data}
+      width={windowWidth-10}
+      height={150}
+      chartConfig={chartConfig}
+      accessor={"emissions"}
+      backgroundColor={"transparent"}
+      paddingLeft={"0"}
+      center={[20, 10]}
+      absolute
+    />
+    </>
   );
 
   return (
@@ -115,6 +174,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 5,
     marginTop: 30,
+    marginBottom: 20
   },
   breakdownButtonText: {
     color: 'white',
