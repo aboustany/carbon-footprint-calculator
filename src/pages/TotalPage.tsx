@@ -91,7 +91,6 @@ const TotalPage = ({ route }) => {
       backgroundColor={"transparent"}
       paddingLeft={"0"}
       center={[20, 10]}
-      absolute
     />
     </>
   );
