@@ -18,7 +18,11 @@ type ItemData = {
   id: string;
   picture: Image;
   title: string;
-  emission: number;
+  total_emission: number;
+  transportation_emissions: any;
+  production_emissions: any;
+  packaging_emissions: any;
+  disposal_emissions: any;
 };
 
 type SelectedItem = {
@@ -29,34 +33,55 @@ type SelectedItem = {
 const DATA: ItemData[] = [
   {
     id: "1",
-    picture: require("../../assets/pictures/surgical_gloves.png"),
+    picture: require("../assets/pictures/surgical_gloves.png"),
     title: "Surgical Gloves (Pair)",
-    emission: 1.2,
+    total_emission: 1.2,
+    transportation_emissions: null,
+    production_emissions: null,
+    packaging_emissions: null,
+    disposal_emissions: null,
   },
   {
     id: "2",
-    picture: require("../../assets/pictures/surgical_mask.png"),
+    picture: require("../assets/pictures/surgical_mask.png"),
     title: "Surgical Mask",
-    emission: 2.249,
+    total_emission: 2.249,
+    transportation_emissions: null,
+    production_emissions: null,
+    packaging_emissions: null,
+    disposal_emissions: null,
   },
   {
     id: "3",
-    picture: require("../../assets/pictures/syringe.png"),
+    picture: require("../assets/pictures/syringe.png"),
     title: "2mL Syringe",
-    emission: 0.013,
+    total_emission: 0.013,
+    transportation_emissions: null,
+    production_emissions: null,
+    packaging_emissions: null,
+    disposal_emissions: null,
   },
   {
     id: "4",
-    picture: require("../../assets/pictures/syringe.png"),
+    picture: require("../assets/pictures/syringe.png"),
     title: "5mL Syringe",
-    emission: 0.016,
+    total_emission: 0.016,
+    transportation_emissions: null,
+    production_emissions: null,
+    packaging_emissions: null,
+    disposal_emissions: null,
   },
   {
     id: "5",
-    picture: require("../../assets/pictures/syringe.png"),
+    picture: require("../assets/pictures/syringe.png"),
     title: "10mL Syringe",
-    emission: 0.03,
+    total_emission: 0.03,
+    transportation_emissions: null,
+    production_emissions: null,
+    packaging_emissions: null,
+    disposal_emissions: null,
   },
+  
 ];
 
 const SelectionPage = ({ navigation }) => {
@@ -87,20 +112,39 @@ const SelectionPage = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    let totalEmission = Object.values(selectedItems).reduce(
-      (total, selectedItem) => {
+    let totalEmission = Object.values(selectedItems)
+      .filter((selectedItem) => selectedItem !== undefined)
+      .reduce((total, selectedItem) => {
         if (selectedItem) {
-          return total + selectedItem.count * selectedItem.item.emission;
+          return total + selectedItem.count * selectedItem.item.total_emission;
         }
         return total;
-      },
-      0
-    );
-
+      }, 0);
+  
     totalEmission = parseFloat(totalEmission.toFixed(3));
-
-    navigation.navigate("Total", { totalEmission });
-  };
+  
+    const emissionBreakdown = Object.values(selectedItems)
+    .filter((selectedItem) => selectedItem !== undefined)
+    .reduce(
+      (totals, selectedItem) => {
+        if (selectedItem) {
+          totals.transportation_emissions += selectedItem.count * selectedItem.item.transportation_emissions;
+          totals.production_emissions += selectedItem.count * selectedItem.item.production_emissions;
+          totals.packaging_emissions += selectedItem.count * selectedItem.item.packaging_emissions;
+          totals.disposal_emissions += selectedItem.count * selectedItem.item.disposal_emissions;
+        }
+        return totals;
+      },
+      {
+        transportation_emissions: 0,
+        production_emissions: 0,
+        packaging_emissions: 0,
+        disposal_emissions: 0,
+      }
+    );
+  navigation.navigate("Total", { totalEmission, emissionBreakdown });
+};
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -108,13 +152,14 @@ const SelectionPage = ({ navigation }) => {
         <Text style={styles.title}>Carbon Emissions Calculator</Text>
         <TextInput
           style={styles.input}
-          placeholder="Search for items..."
+          placeholder="Search for medical items..."
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
 
         <FlatList
           data={filteredData}
+          numColumns={2}
           renderItem={({ item }) => (
             <MedicalItem
               title={item.title}
@@ -125,6 +170,7 @@ const SelectionPage = ({ navigation }) => {
             />
           )}
           contentContainerStyle={styles.flatListContent}
+          showsHorizontalScrollIndicator={false} 
           keyExtractor={(item) => item.id}
         />
 
@@ -173,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   flatListContent: {
-    padding: 30,
+    paddingHorizontal: 7,
   },
 });
 

@@ -8,7 +8,7 @@ const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
       style={[styles.item, isSelected ? styles.selectedItem : {}]}
     >
       <Image source={picture} style={styles.imageStyle} />
-      <Text style={styles.itemText}>{title}</Text>
+      <Text style={styles.itemText} numberOfLines={2}>{title}</Text>
     </TouchableOpacity>
     {isSelected && (
       <View style={styles.countContainer}>
@@ -26,8 +26,9 @@ const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: 150,
     marginBottom: 15,
+    marginHorizontal: 8
   },
   item: {
     padding: 10,
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
   itemText: {
     color: "black",
     alignSelf: "center",
-    fontSize: 16,
+    fontSize: 13,
+    textAlign: "center"
   },
   countText: {
     alignSelf: "center",
@@ -62,9 +64,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   imageStyle: {
-    width: 150,
-    height: 150,
+    width: 80,
+    height: 80,
     resizeMode: "contain",
+    alignSelf: "center"
   },
 });
 
