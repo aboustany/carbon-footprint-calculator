@@ -89,7 +89,7 @@ const TotalPage = ({ route }) => {
       chartConfig={chartConfig}
       accessor={"emissions"}
       backgroundColor={"transparent"}
-      paddingLeft={"0"}
+      paddingLeft={"-20"}
       center={[20, 10]}
     />
     </>
