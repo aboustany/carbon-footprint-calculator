@@ -27,15 +27,16 @@ const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
 const styles = StyleSheet.create({
   container: {
     width: 150,
-    marginBottom: 15,
-    marginHorizontal: 8
+    marginHorizontal: 8,
+    marginBottom: 10
   },
   item: {
     padding: 10,
     marginVertical: 8,
     borderColor: "gray",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
+    height: 130
   },
   selectedItem: {
     backgroundColor: "lightgreen",
