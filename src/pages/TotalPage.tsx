@@ -2,12 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Animated, Image, Dimensions, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-  LineChart,
-  BarChart,
   PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
 
 const windowWidth = Dimensions.get('window').width;
@@ -28,7 +23,7 @@ const TotalPage = ({ route }) => {
     ).start();
   }, []);
 
-  const carEmissionsEquivalent = parseFloat((0.196974607*(route.params.totalEmission)).toFixed(3))
+  const carEmissionsEquivalent = parseFloat((5.57413600892*(route.params.totalEmission)).toFixed(3))
 
   const BreakdownButton = () => (
     <TouchableOpacity onPress={() => setShowBreakdown(!showBreakdown)} style={styles.breakdownButton}>
