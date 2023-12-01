@@ -1,5 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
   <View style={styles.container}>
@@ -7,8 +9,12 @@ const MedicalItem = ({ picture, title, onSelect, isSelected, count }) => (
       onPress={() => onSelect(1)}
       style={[styles.item, isSelected ? styles.selectedItem : {}]}
     >
+      {title.includes("Mask") && (
+          <Ionicons name="information-circle-outline" size={22} style={styles.infoIcon}/>
+      )}
       <Image source={picture} style={styles.imageStyle} />
       <Text style={styles.itemText} numberOfLines={2}>{title}</Text>
+
     </TouchableOpacity>
     {isSelected && (
       <View style={styles.countContainer}>
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     height: 130
   },
   selectedItem: {
-    backgroundColor: "lightgreen",
+    backgroundColor: "#74ca74",
   },
   itemText: {
     color: "black",
@@ -70,6 +76,11 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "center"
   },
+  infoIcon:{
+    position: "absolute",
+    right: 10,
+    top: 10
+  }
 });
 
 export default MedicalItem;

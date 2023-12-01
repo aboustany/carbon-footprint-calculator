@@ -8,11 +8,15 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
+  Image, Modal,
+    Dimensions
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Item from "../components/MedicalItem";
 import MedicalItem from "../components/MedicalItem";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const { width, height } = Dimensions.get('window');
 
 type ItemData = {
   id: string;
@@ -149,6 +153,7 @@ const SelectionPage = ({ navigation }) => {
   >({});
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
 
   const filteredData = DATA.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -208,6 +213,32 @@ const SelectionPage = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient colors={["lightblue", "white"]} style={styles.container}>
+        <TouchableOpacity
+            onPress={() => setInfoModalVisible(true)}
+            style={styles.infoButton}
+        >
+          <Ionicons name="information-circle-outline" size={25} style={styles.infoButton}/>
+        </TouchableOpacity>
+
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={infoModalVisible}
+            onRequestClose={() => setInfoModalVisible(false)}
+        >
+          <View style={styles.fullScreenCentered}>
+            <View style={styles.modalView}>
+              {/* Modal Content */}
+              <Text style={{fontSize: 18, marginBottom: 10}}>Please remember to change your mask every 2 hours.</Text>
+              <TouchableOpacity
+                  onPress={() => setInfoModalVisible(false)}
+                  style={styles.closeButton}
+              >
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
         <Text style={styles.title}>Carbon Emissions Calculator</Text>
         <TextInput
           style={styles.input}
@@ -279,6 +310,44 @@ const styles = StyleSheet.create({
   },
   flatListContent: {
     paddingHorizontal: 7,
+  },
+  infoButton: {
+    position: "absolute",
+    top: 30,
+    right: 10,
+  },
+  fullScreenCentered: {
+    width: width,
+    height: height,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    position: 'absolute', // Ensures it overlays over everything
+    top: 0,
+    left: 0,
+
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '90%',
+  },
+  closeButton: {
+    marginTop: 15,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
   },
 });
 

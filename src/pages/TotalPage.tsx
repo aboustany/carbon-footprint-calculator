@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Animated, Image, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Animated,  Dimensions, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   PieChart,
@@ -36,28 +36,28 @@ const TotalPage = ({ route }) => {
       name: "Transportation",
       emissions: parseFloat(route.params.emissionBreakdown.transportation_emissions.toFixed(3)),
       color: "blue",
-      legendFontColor: "#7F7F7F",
+      legendFontColor: "#353535FF",
       legendFontSize: 15
     },
     {
       name: "Production",
       emissions: parseFloat(route.params.emissionBreakdown.production_emissions.toFixed(3)),
       color: "lightblue",
-      legendFontColor: "#7F7F7F",
+      legendFontColor: "#353535FF",
       legendFontSize: 15
     },
     {
       name: "Packaging",
       emissions: parseFloat(route.params.emissionBreakdown.packaging_emissions.toFixed(3)),
       color: "green",
-      legendFontColor: "#7F7F7F",
+      legendFontColor: "#353535FF",
       legendFontSize: 15
     },
     {
       name: "Disposal",
       emissions: parseFloat(route.params.emissionBreakdown.disposal_emissions.toFixed(3)),
       color: "lightgreen",
-      legendFontColor: "#7F7F7F",
+      legendFontColor: "#353535",
       legendFontSize: 15
     },
 
@@ -76,26 +76,31 @@ const TotalPage = ({ route }) => {
 
   const BreakdownView = () => (
     <>
-   
-    <PieChart
-      data={data}
-      width={windowWidth-10}
-      height={150}
-      chartConfig={chartConfig}
-      accessor={"emissions"}
-      backgroundColor={"transparent"}
-      paddingLeft={"-20"}
-      center={[20, 10]}
-    />
+      <PieChart
+        data={data}
+        width={windowWidth-30}
+        height={200}
+        chartConfig={chartConfig}
+        accessor={"emissions"}
+        backgroundColor={"#e4feeb"}
+        paddingLeft={"-20"}
+        center={[20, 5]}
+        style={{borderRadius: 20, }}
+      />
     </>
   );
 
   return (
-    <LinearGradient colors={["lightgreen", "white"]} style={styles.container}>
-      <Text style={styles.title}>Estimated Carbon Emission</Text>
+    <LinearGradient colors={["#5ea65e", "white"]} style={styles.container}>
+      <Text style={styles.title}>
+        Results
+      </Text>
+
       <Text style={styles.totalEmission}>
         {route.params.totalEmission} {"kg CO2e"}
       </Text>
+      <Text style={styles.emissions_title}>Estimated Carbon Emission</Text>
+
       <BreakdownButton />
       {showBreakdown && <BreakdownView />}
       <View style={styles.emissionsContainer}>
@@ -133,15 +138,23 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 50,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  title:{
+    position: "absolute",
+    top: 80,
+    left: 25,
+    fontSize: 40,
+    fontWeight: "bold"
+  },
+  emissions_title: {
+    fontSize: 18,
     color: "black",
     marginBottom: 20,
   },
   totalEmission: {
-    fontSize: 20,
+    fontSize: 35,
+    fontWeight: "bold",
     color: "black",
+    bottom: 10,
   },
   carContainer: {
     position: 'absolute',
@@ -164,7 +177,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   breakdownButton: {
-    backgroundColor: 'darkgreen',
+    backgroundColor: '#5c3312',
     padding: 7,
     borderRadius: 5,
     marginTop: 30,
