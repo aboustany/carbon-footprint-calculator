@@ -144,6 +144,26 @@ const DATA: ItemData[] = [
     packaging_emissions: 0.65,
     disposal_emissions: 2.0,
   },
+  {
+    id: "12",
+    picture: require("../assets/pictures/iv-tubing.png"),
+    title: "IV Tubing",
+    total_emission: 1.904, // temp data
+    transportation_emissions: 1.07, // temp data
+    production_emissions: 0.0367, // temp data
+    packaging_emissions: 0.65, // temp data
+    disposal_emissions: 2.0, // temp data
+  },
+  {
+    id: "13",
+    picture: require("../assets/pictures/hypodermic-needle.png"),
+    title: "Hypodermic Needle",
+    total_emission: 1.904, // temp data
+    transportation_emissions: 1.07, // temp data
+    production_emissions: 0.0367, // temp data
+    packaging_emissions: 0.65, // temp data
+    disposal_emissions: 2.0, // temp data
+  }
 ];
 
 const SelectionPage = ({ navigation }) => {
