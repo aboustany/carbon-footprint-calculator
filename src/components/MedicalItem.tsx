@@ -72,9 +72,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 20,
     fontWeight: "bold",
-    borderRadius: 8,
-    overflow: "hidden", 
+    overflow: "hidden",
     backgroundColor: "#74ca74", 
+    borderRadius: 8,
   },
   imageStyle: {
     width: 80,
